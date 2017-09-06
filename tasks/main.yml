@@ -1,0 +1,76 @@
+---
+- name: Install utilities
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - nmap-ncat
+    - git
+    - tmux
+    - ruby
+    - ruby-devel
+
+- name: Download bosh binary with check (sha256)
+  get_url:
+    url: https://s3.amazonaws.com/bosh-cli-artifacts/bosh-cli-2.0.28-linux-amd64
+    dest: /usr/local/bin/bosh
+    checksum: sha256:cc06d8c62891cd7d55812cbac227fe5f8a9e54505cca622bc767c363d7e8cbf6
+    mode: 0755
+
+- name: Download fly binary with check (sha256)
+  get_url:
+    url: https://github.com/concourse/concourse/releases/download/v3.0.1/fly_linux_amd64
+    dest: /usr/local/bin/fly
+    checksum: sha256:0c439d8363e5d81e61f02f3a4cd0d8051ba276c2ed81a27e985416fc230e296d
+    mode: 0755
+
+- name: Download yaml-patch binary with check (sha256)
+  get_url:
+    url: https://github.com/krishicks/yaml-patch/releases/download/v0.0.9/yaml_patch_linux
+    dest: /usr/local/bin/yaml-patch
+    checksum: sha256:95d635a598d2dd4774f78bd18b4ce0ec63585e4ed219fd129869797ce0d0e0e1
+    mode: 0755
+
+- name: Download jq binary with check (sha256)
+  get_url:
+    url: https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+    dest: /usr/local/bin/jq
+    checksum: sha256:c6b3a7d7d3e7b70c6f51b706a3b90bd01833846c54d32ca32f0027f00226ff6d
+    mode: 0755
+
+- name: Setup python env (Create tiles)
+  package:
+     name: "{{ item }}"
+     state: present 
+  with_items:
+     - python-virtualenv
+
+- name: Install pip items 
+  pip:
+    name: "{{ item }}"
+  with_items:
+    - yamllint 
+
+- name: Download minio binary with check (sha256)
+  get_url:
+    url: https://dl.minio.io/client/mc/release/linux-amd64/mc
+    dest: /usr/local/bin/mc
+    checksum: sha256:969e0fdbb911d32f8c47601c912da5ce4a7f4c22ff118a4674b452c5f483c049
+    mode: 0755
+  tags: mc
+
+- name: Download om binary with check (sha256)
+  get_url:
+    url: https://github.com/pivotal-cf/om/releases/download/0.25.0/om-linux
+    dest: /usr/local/bin/om
+    checksum: sha256:fd3d3fc3e4123dc937895cfcb44e509374ef2908cd24c946dfa6aafaf5a6da16
+    mode: 0755
+  tags: om
+
+- name: Download pivnet binary with check (sha256)
+  get_url:
+    url: https://github.com/pivotal-cf/pivnet-cli/releases/download/v0.0.49/pivnet-linux-amd64-0.0.49
+    dest: /usr/local/bin/pivnet
+    checksum: sha256:16a04643377e59882da7dc5ed1e0c5e6e7ac0419ab74e4dd3b7f08d7cce1e8f6
+    mode: 0755
+  tags: pivnet
