@@ -1,14 +1,13 @@
 ---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
 - name: Install utilities
   package:
     name: "{{ item }}"
     state: present
-  with_items:
-    - nmap-ncat
-    - git
-    - tmux
-    - ruby
-    - ruby-devel
+  with_items: "{{ __packages | list }}"
 
 - name: Download bosh binary with check (sha256)
   get_url:
@@ -41,23 +40,15 @@
 - name: Setup python env (Create tiles)
   package:
      name: "{{ item }}"
-     state: present 
+     state: present
   with_items:
      - python-virtualenv
 
-- name: Install pip items 
+- name: Install pip items
   pip:
     name: "{{ item }}"
   with_items:
-    - yamllint 
-
-- name: Download minio binary with check (sha256)
-  get_url:
-    url: https://dl.minio.io/client/mc/release/linux-amd64/mc
-    dest: /usr/local/bin/mc
-    checksum: sha256:969e0fdbb911d32f8c47601c912da5ce4a7f4c22ff118a4674b452c5f483c049
-    mode: 0755
-  tags: mc
+    - yamllint
 
 - name: Download om binary with check (sha256)
   get_url:
@@ -74,3 +65,11 @@
     checksum: sha256:16a04643377e59882da7dc5ed1e0c5e6e7ac0419ab74e4dd3b7f08d7cce1e8f6
     mode: 0755
   tags: pivnet
+
+- name: Download minio binary with check (sha256)
+  get_url:
+    url: https://dl.minio.io/client/mc/release/linux-amd64/mc.RELEASE.2017-10-14T00-51-16Z
+    dest: /usr/local/bin/mc
+    checksum: sha256:eb3edd18b5e8cf9b91d02aaf269b850a53800e2828d821a2cfdfc6ee1c14c379
+    mode: 0755
+  tags: mc

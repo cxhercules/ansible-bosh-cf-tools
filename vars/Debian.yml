@@ -1,0 +1,7 @@
+---
+__packages:
+  - netcat
+  - git
+  - tmux
+  - ruby
+  - ruby-dev

@@ -1,0 +1,7 @@
+---
+__packages:
+  - nmap-ncat
+  - git
+  - tmux
+  - ruby
+  - ruby-devel
