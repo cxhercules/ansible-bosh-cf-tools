@@ -1,7 +1,8 @@
 ---
 - name: Add cloudfoundry repository
   yum_repository:
-    name: Cloud Foundry CLI
+    name: cloud-foundry-cli
+    description: Cloud Foundry CLI
     file: cloudfoundry-cli
     baseurl: https://packages.cloudfoundry.org/fedora
     gpgkey: https://packages.cloudfoundry.org/fedora/cli.cloudfoundry.org.key
